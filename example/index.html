@@ -1,77 +1,187 @@
-# **NGTour**
-  
-Componente angular para criação de tour virtual em um página ou aplicação web.
-O uso desse componente é simples.
-
-## Instalação
-
-`npm install ngtour`
-
-## Uso
-Adicione as bibliotecas 
-
-Lodash.js
-
-Jump.js (opcional para efeito smooth do scroll)
-
-DoublyLinkedList (Localizado nas pasta de código fonte "/src/js/doubly-linked-list.js")
-
-NgTour (Localizado nas pasta de código fonte "/src/js/ngtour.js" e "/src/css/ngtour.js")
-
-Crie sua aplicação angular (versão maior que 1.5) e adicione o módulo ngTour
-
-`
-    angular.module("ngTourExample",["ngTour"])
-`
-
-Adicione o componente, definindo um id e o estilo padrão
-
-`
-    <ng-tour id="tour-1" style="{width:'100px',height:'200px'}"></ng-tour>
-`
-
-Mapeie seus elementos de tela para que o NgTour possa reconhecê-los e criar o tour virtual.
-
-Ex.:
-
-`
-    <input type="text" tour data-step="1" data-description="This is a input element">
-`
-
-**Atenção:** Elementos com visibilidade do tipo hidden ou display do tipo none não serão apresentados no tour.
-
-Depois de definido os componentes a fazerem parte do tour virtual, pode-se inicializar o tour chamando a função start do ngTour.
-
-Para isso é necessário injetar o serviço *ngTourComponentService* como no exemplo
-
-```
-angular.module("ngTourExample",["ngTour"])
-    .controller("exampleCtrl",function(ngTourComponentService,$timeout){
-        var pub = this;
-        pub.tutor ={
-            form: "Form data",
-            button : {
-                start : "Start the interactive tutorial.",
-                submit: "Submit form"
-            },
-            input : {
-                user: "User field",
-                name: "Name Field",
-                phone: "Phone Field"
-            },
-            video : "This is a Video tag",
-            invisible : "This is a invisible component.",
-            textarea: "TextArea"
-        };
-        pub.startTutorial = function(){
-            var tour = ngTourComponentService.get("tour-1");
-            if(tour){
-                tour.start();
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NGTour Example</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="../src/css/ngtour.css" type="text/css" />
+        <style>
+            body{
+                margin:0px;
+                font-family:Arial;
+                font-size:14px;
             }
-        };
-        
-});
-```
-License **MIT**
-
-###### Developed by *Claudio Traspadini Oliveira*
+            .content{
+                margin-top:20px;
+                display:flex;
+                flex-direction:column;
+                align-items: center;
+                justify-content: center;
+            }
+            .content .header{
+                width: 100%;
+                display: flex;
+                margin-bottom: 20px;
+                box-shadow: 0px 4px 4px 0px #eee;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .content .footer {
+                height:100px;
+                width: 100%;
+                margin-top: 20px;
+                box-shadow: 0px -4px 4px 0px #eee;
+                height: 100px;
+                width: 100%;
+                margin-top: 20px;
+                box-shadow: 0px -4px 4px 0px #eee;
+                display: flex;
+                align-content: center;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .content h1.title{
+                flex:1 50%;
+                width:300px;
+                text-align:center;
+            }
+            .content .btn{
+                cursor:pointer;
+                border-radius:4px;
+                background-color:#ccc;
+                outline:none;
+                border:solid 1px #ddd;
+                padding:5px;
+                padding-left:10px;
+                padding-right:10px;
+            }
+            .content .btn:hover{
+                background-color:#bbb;
+            }
+            .content .btn.btn-start{
+                background-color:#267ED5;
+                border-color:#106CC8;
+                color:white;
+            }
+            .content .btn.btn-start:hover{
+                background-color:#106CC8;
+            }
+            .content .form{
+                border:dashed 1px #ccc;
+                padding:20px;
+            }
+            .content .form .form-field,
+            .content .form .form-button{
+                display:flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding:5px;
+            }
+            .content .form .form-field label{
+                flex:1 50px;
+                padding-right:5px;
+            }
+            .content .video{
+                margin:10px;
+                border:solid 1px black;
+            }
+            .content .invisible,
+            .content .hide{
+                border:dotted 1px red;
+                width:100px;
+                height:100px;
+            }
+            .content .invisible{
+                visibility:hidden;
+            }
+            .content .hide{
+                display:none;
+            }
+        </style>
+    </head>    
+    <body ng-app="ngTourExample" ng-controller="exampleCtrl as ex">
+        <ng-tour id="tour-1" style="{width:'100px',height:'200px'}"></ng-tour>
+        <div class="content">
+            <div class="header">
+                <h1 class="title">
+                    Angular component for interactive tour.
+                </h1>
+            </div>
+            <button class="btn btn-start" tour data-step="1" data-description="{{ex.tutor.button.start}}" ng-click="ex.startTutorial()">
+                &#x25BA;&nbsp;Start
+            </button>
+            <br/><br/>
+            <form class="form" tour data-step="2" data-description="{{ex.tutor.form}}">
+                <div class="form-field" tour data-step="3" data-description="{{ex.tutor.input.user}}">
+                    <label for="user">User</label><input type="text" name="user"/>
+                </div>
+                <div class="form-field" tour data-step="4" data-description="{{ex.tutor.input.name}}">
+                    <label for="name">Name</label><input type="text" name="name"/>
+                </div>
+                <div class="form-field" tour data-step="5" data-description="{{ex.tutor.input.phone}}">
+                    <label for="phone">Phone</label><input type="text" name="phone"/>
+                </div>
+                <div class="form-button">
+                    <button class="btn" tour data-step="6" data-description="{{ex.tutor.button.submit}}">
+                        Submit
+                    </button>
+                </div>
+            </form>
+            <div class="video" tour data-step="7" data-description="{{ex.tutor.video}}">
+                <video width="400" controls>
+                  <source src="movie.ogg" type="video/ogg">
+                </video>
+            </div>
+            <div class="invisible" tour data-step="8" data-description="{{ex.tutor.invisible}}">
+            </div>
+            <div class="hide" tour data-step="9" data-description="{{ex.tutor.invisible}}">
+            </div>
+            <textarea tour data-step="10" data-description="{{ex.tutor.textarea}}">
+                
+            </textarea>
+            <div class="footer">
+                <div>
+                    Developed by <span style="font-style:italic">Claudio Traspadini Oliveira</span>
+                </div>
+                <a href="https://github.com/caltras/ngtour">Github</div>
+            </div>
+        </div>
+        <script type="text/javascript" src="../node_modules/lodash/lodash.js"></script>
+        <script type="text/javascript" src="../node_modules/jump.js/dist/jump.min.js"></script>
+        <script type="text/javascript" src="../node_modules/angular/angular.min.js"></script>
+        <script type="text/javascript" src="../src/js/doubly-linked-list.js"></script>
+        <script type="text/javascript" src="../src/js/ngtour.js"></script>
+        <script>
+            (function(){
+                angular.module("ngTourExample",["ngTour"])
+                .controller("exampleCtrl",function(ngTourComponentService,$timeout){
+                    var pub = this;
+                    pub.tutor ={
+                        form: "Form data",
+                        button : {
+                            start : "Start the interactive tutorial.",
+                            submit: "Submit form"
+                        },
+                        input : {
+                            user: "User field",
+                            name: "Name Field",
+                            phone: "Phone Field"
+                        },
+                        video : "This is a Video tag",
+                        invisible : "This is a invisible component.",
+                        textarea: "TextArea"
+                    };
+                    pub.startTutorial = function(){
+                        var tour = ngTourComponentService.get("tour-1");
+                        if(tour){
+                            tour.start();
+                        }
+                    };
+                    
+                });
+                
+            })();
+        </script>
+    </body>
+</html>
