@@ -1,0 +1,22 @@
+{
+  "name": "ngtour",
+  "description": "Angular module for virtual tour in the website/webapp",
+  "main": "server.js",
+  "authors": [
+    "Claudio Traspadini Oliveira"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Tour",
+    "Angularjs",
+    "Javascript"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
