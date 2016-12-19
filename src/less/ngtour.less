@@ -1,0 +1,125 @@
+@shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75);
+@default-border-radius: 4px;
+@font: Arial;
+.transition (@transition) {
+	-webkit-transition: @transition;  
+	-moz-transition:    @transition;
+	-ms-transition:     @transition; 
+	-o-transition:      @transition;  
+}
+.ng-tour {
+    font-family: @font;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    .btn{
+        outline: none;
+        cursor:pointer;
+        &:hover {
+            background-color: #ddd;  
+        }
+    }
+    .hole{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 0px;
+        height: 0px;
+        box-shadow: @shadow;
+        border-radius: @default-border-radius;
+        z-index:999998;
+        .transition(all .5s);
+    }
+    .ng-tour-box{
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            height: auto;
+            width: auto;
+            .transition(all .5s);
+        &.fixed-bottom{
+            position:fixed;
+            bottom:0px;
+            left:0px;
+            border-top: solid 1px #bcbcbc;
+            padding-top: 10px;
+            width: 100%;
+            z-index: 999999;
+        }
+        /*&.left{
+            margin-right: 10px;
+            .ng-tour-box-inner{
+                border-right: solid 1px white;
+                padding-right: 8px;
+            }
+        }
+        &.right{
+            margin-left: 10px;
+            .ng-tour-box-inner{
+                border-left: solid 1px white;
+                padding-left: 8px;
+            }
+        }*/
+        .ng-tour-box-inner{
+            min-width: 200px;
+            z-index: 999999;
+            color: #bcbcbc;
+            font-size:14px;
+            display: flex;
+            flex-direction: column;
+            .ng-tour-description{
+                padding: 10px;
+                text-align: center;
+            }
+            .ng-tour-group-button{
+                display: flex;
+                flex-direction:row;
+                align-content: center;
+                justify-content: center;
+                .btn{
+                    background-color: #ccc;
+                    border: none;
+                    border-radius: 2px;
+                    width: 35px;
+                    margin:5px;
+                }
+            }
+        }
+    }
+    .control{
+        display: flex;
+        align-content: flex-end;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-right: 10px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 999999;
+        .btn{
+            &.btn-close{
+                display: flex;
+                border:solid 4px white;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                align-items: center;
+                justify-content: center;
+                align-content: center;
+                padding: 2px;
+                z-index:999999;
+                background-color: rgba(0,0,0,0);
+                color: white;
+                &:hover{
+                   border:solid 4px #ccc; 
+                   color:#ccc;
+                }
+                .inner{
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
